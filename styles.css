@@ -389,7 +389,7 @@ section{ padding-block:clamp(64px, 9vw, 120px); }
 
 /* ---------- Responsivo ---------- */
 @media (max-width:960px){
-  .hero-grid{ grid-template-columns:1fr; }
+  .hero-grid{ grid-template-columns:minmax(0,1fr); }
   .hero-visual{ order:-1; max-width:380px; margin-inline:auto; }
   .about{ grid-template-columns:1fr; }
   .grid-4,.steps{ grid-template-columns:repeat(2,1fr); }
@@ -418,12 +418,14 @@ section{ padding-block:clamp(64px, 9vw, 120px); }
   .nav-links .nav-cta .btn{ width:100%; }
   .nav-toggle{ display:block; }
 
-  /* hero compacto */
+  /* hero compacto + centralizado no mobile */
   .hero{ padding-block:32px 42px; }
-  .hero .lead{ margin-bottom:20px; }
-  .hero-actions{ gap:10px; margin-bottom:16px; }
-  .hero-actions .btn{ width:100%; }
-  .hero-visual{ max-width:330px; margin-inline:auto; }
+  .hero-copy{ text-align:center; }
+  .hero .lead{ margin-bottom:20px; margin-inline:auto; }
+  .hero-actions{ gap:10px; margin-bottom:16px; justify-content:center; }
+  .hero-actions .btn{ width:100%; white-space:normal; }
+  .hero-note{ justify-content:center; }
+  .hero-visual{ max-width:330px; margin-left:auto; margin-right:auto; justify-self:center; }
   .hero-card{ padding:16px; }
   .hero-badge{ display:none; }
   .carousel-card{ padding:12px; }
