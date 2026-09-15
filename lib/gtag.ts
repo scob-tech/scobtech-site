@@ -3,9 +3,15 @@
 
 export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "";
 
-// Label da ação de conversão (Google Ads → Metas → Conversões → "Configurar tag").
-// Definido em NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL; send_to vira "AW-XXX/LABEL".
-export const GOOGLE_ADS_CONVERSION_LABEL = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL ?? "";
+// Labels das ações de conversão (Google Ads → Metas → Conversões → "Configurar tag").
+export const CONVERSIONS = {
+  /** Diagnóstico Operacional */
+  diagnostico: "vo7fCNHUjvkcEIG-vtxE",
+  /** WhatsApp Scob */
+  whatsapp: "BZUtCOTCkPkcEIG-vtxE",
+} as const;
+
+export type ConversionLabel = (typeof CONVERSIONS)[keyof typeof CONVERSIONS];
 
 type GtagParams = Record<string, unknown>;
 
@@ -38,10 +44,25 @@ export function event(action: string, params: GtagParams = {}) {
   gtag("event", action, params);
 }
 
-/** Conversão do Google Ads. Não bloqueia navegação (gtag.js envia via beacon). */
-export function conversion(params: GtagParams = {}) {
-  const sendTo = GOOGLE_ADS_CONVERSION_LABEL
-    ? `${GOOGLE_ADS_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
-    : GOOGLE_ADS_ID;
-  event("conversion", { send_to: sendTo, value: 1.0, currency: "BRL", ...params });
+/**
+ * Conversão do Google Ads. Não bloqueia navegação: o gtag.js envia o hit via beacon,
+ * então pode ser chamada no onClick de um link que abre o WhatsApp.
+ */
+export function conversion(label: ConversionLabel, value?: number, currency = "BRL") {
+  const params: GtagParams = { send_to: `${GOOGLE_ADS_ID}/${label}` };
+  if (value !== undefined) {
+    params.value = value;
+    params.currency = currency;
+  }
+  event("conversion", params);
+}
+
+/** Conversão "Diagnóstico Operacional" (lead). */
+export function trackLeadConversion() {
+  conversion(CONVERSIONS.diagnostico, 1.0, "BRL");
+}
+
+/** Conversão "WhatsApp Scob". Chamada antes de abrir o WhatsApp. */
+export function trackWhatsAppConversion() {
+  conversion(CONVERSIONS.whatsapp);
 }
