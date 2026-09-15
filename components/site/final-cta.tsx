@@ -1,5 +1,8 @@
+"use client";
+
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { conversion } from "@/lib/gtag";
 import { site } from "@/lib/site";
 import { Reveal } from "./reveal";
 
@@ -33,17 +36,17 @@ export function FinalCta() {
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild size="xl" className="w-full sm:w-auto">
-              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" onClick={() => conversion()}>
                 <span
                   aria-hidden
                   className="absolute inset-y-0 left-0 w-1/3 animate-shine bg-gradient-to-r from-transparent via-white/60 to-transparent"
                 />
-                <span className="relative">Agendar diagnóstico gratuito</span>
+                <span className="relative">Quero meu diagnóstico operacional</span>
                 <ArrowRight className="relative transition-transform group-hover/btn:translate-x-1" />
               </a>
             </Button>
             <Button asChild size="xl" variant="secondary" className="w-full sm:w-auto">
-              <a href={site.whatsappChat} target="_blank" rel="noopener noreferrer">
+              <a href={site.whatsappChat} target="_blank" rel="noopener noreferrer" onClick={() => conversion()}>
                 <MessageCircle /> Falar pelo WhatsApp
               </a>
             </Button>
