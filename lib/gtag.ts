@@ -4,7 +4,7 @@
 export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "";
 
 // Label da ação de conversão (Google Ads → Metas → Conversões → "Configurar tag").
-// Quando existir, basta definir NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL; send_to vira "AW-XXX/LABEL".
+// Definido em NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL; send_to vira "AW-XXX/LABEL".
 export const GOOGLE_ADS_CONVERSION_LABEL = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL ?? "";
 
 type GtagParams = Record<string, unknown>;
@@ -43,5 +43,5 @@ export function conversion(params: GtagParams = {}) {
   const sendTo = GOOGLE_ADS_CONVERSION_LABEL
     ? `${GOOGLE_ADS_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
     : GOOGLE_ADS_ID;
-  event("conversion", { send_to: sendTo, ...params });
+  event("conversion", { send_to: sendTo, value: 1.0, currency: "BRL", ...params });
 }
