@@ -28,7 +28,6 @@ jobs:
         env:
           # .env.local não vai para o repositório; o ID precisa existir no build do export estático
           NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-18447572737' }}
-          NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { ArrowRight, CheckCircle2, Layers, MessageCircle, Plug, Sparkles, TableProperties } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { conversion } from "@/lib/gtag";
+import { trackLeadConversion } from "@/lib/gtag";
 import { site } from "@/lib/site";
 import { HeroDashboard } from "./hero-dashboard";
 import { fadeBlur, stagger } from "./reveal";
@@ -118,15 +118,13 @@ export function Hero() {
 
           <motion.div variants={fadeBlur} className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="xl" className="w-full sm:w-auto">
-              <a href="#contato" onClick={() => conversion()}>
+              <a href="#contato" onClick={() => trackLeadConversion()}>
                 Agendar diagnóstico gratuito
                 <ArrowRight className="transition-transform group-hover/btn:translate-x-1" />
               </a>
             </Button>
             <Button asChild size="xl" variant="secondary" className="w-full sm:w-auto">
-              <a href="#cases" onClick={() => conversion()}>
-                Ver sistemas reais
-              </a>
+              <a href="#cases">Ver sistemas reais</a>
             </Button>
           </motion.div>
 

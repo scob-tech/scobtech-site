@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GOOGLE_ADS_ID } from "@/lib/gtag";
+import { WhatsAppConversion } from "@/components/site/whatsapp-conversion";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -48,7 +49,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <WhatsAppConversion />
+      </body>
       {/* Google Ads (gtag.js): carregada uma vez para todas as páginas */}
       {GOOGLE_ADS_ID && <GoogleAnalytics gaId={GOOGLE_ADS_ID} />}
     </html>
