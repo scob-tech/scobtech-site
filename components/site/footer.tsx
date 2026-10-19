@@ -18,7 +18,7 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 {nav.map((n) => (
                   <li key={n.href}>
-                    <a href={n.href} className="text-subtle transition-colors hover:text-foreground">
+                    <a href={`/${n.href}`} className="text-subtle transition-colors hover:text-foreground">
                       {n.label}
                     </a>
                   </li>
@@ -49,6 +49,9 @@ export function Footer() {
         </div>
         <div className="mt-14 flex flex-col justify-between gap-2 border-t border-line pt-6 text-xs text-subtle sm:flex-row">
           <span>© 2026 scob. Todos os direitos reservados.</span>
+          <a href="/privacy" className="transition-colors hover:text-foreground">
+            Política de Privacidade
+          </a>
           <span>{site.slogan}</span>
         </div>
         <p className="mt-3 text-xs text-subtle/70">

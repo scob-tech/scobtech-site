@@ -7,7 +7,10 @@ const BASE_URL = "https://scobtech.com.br";
 
 // Rotas públicas do site. Seções da home (#cases, #contato) são âncoras, não páginas,
 // por isso não entram aqui. Ao criar uma nova página em app/, adicione a rota nesta lista.
-const routes: { path: string; priority: number }[] = [{ path: "/", priority: 1 }];
+const routes: { path: string; priority: number }[] = [
+  { path: "/", priority: 1 },
+  { path: "/privacy", priority: 0.3 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
