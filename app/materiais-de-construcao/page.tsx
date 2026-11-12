@@ -15,8 +15,7 @@ import "./landing.css";
  * de soluções, o contato comercial pelo WhatsApp e o rodapé. Metadados definitivos
  * (indexável), em lib/landing-metadata.ts.
  *
- * Decisão comercial: a página apresenta as soluções sem uma seção exclusiva de case. O
- * componente CaseEntregas continua no repositório, mas não é renderizado.
+ * Decisão comercial: a página apresenta as soluções sem uma seção exclusiva de case.
  *
  * Isolamento: o CSS da landing é importado só por esta rota (e pelos componentes dela), com
  * classes próprias (.ss, .hbc, .sc, .sv, .ct, .sd). As regras globais (html:has, @property)
