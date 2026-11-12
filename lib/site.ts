@@ -21,12 +21,11 @@ export const site = {
 
 /**
  * Âncoras da página inicial (landing Bone & Cobalt), usadas na coluna "Navegar" do rodapé
- * de /privacy. Só destinos que existem na landing: os títulos da vitrine, do case e do
- * contato. As âncoras da página anterior (#comparacao, #cases, #processo, #sobre) não
- * existem mais.
+ * de /privacy. Só destinos que existem na landing: os títulos da vitrine de soluções e do
+ * contato. As âncoras da página anterior (#comparacao, #cases, #processo, #sobre) e a do
+ * case (#ce-titulo, seção retirada da página) não existem mais.
  */
 export const nav = [
   { label: "Soluções", href: "#sv-titulo" },
-  { label: "Case real", href: "#ce-titulo" },
   { label: "Contato", href: "#ct-titulo" },
 ];
