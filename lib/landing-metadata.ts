@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
 /**
- * Metadados definitivos da nova landing (Bone & Cobalt), preparados para a futura rota
- * pública `/`. Hoje aplicados em /preview-hero, que acrescenta `robots: noindex` por
- * cima. Ao substituir `/`, basta usar este objeto SEM o noindex.
+ * Metadados da landing Bone & Cobalt publicada em /materiais-de-construcao (indexável).
+ * A página institucional (/) mantém os próprios metadados, definidos no layout raiz.
  *
  * Textos derivados do hero aprovado (kicker, título e subtítulo); nada novo foi afirmado.
  * Caminhos relativos resolvem contra `metadataBase` (https://scobtech.com.br, no layout).
  */
+const ROTA = "/materiais-de-construcao";
+
 const title = "scob. | Tecnologia para lojas de materiais de construção";
 const description =
-  "Sua loja mais eficiente, do primeiro atendimento à última entrega. Sistemas modulares para organizar o atendimento, impulsionar as vendas e controlar a operação.";
+  "Sistemas modulares para lojas de materiais de construção: atendimento organizado, mais vendas e controle da operação, do primeiro atendimento à última entrega.";
 
 const ogTitle = "Sua loja mais eficiente, do primeiro atendimento à última entrega.";
 const ogDescription =
@@ -25,12 +26,12 @@ const ogImage = {
 export const landingMetadata: Metadata = {
   title,
   description,
-  alternates: { canonical: "/" },
+  alternates: { canonical: ROTA },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     siteName: "scob.",
-    url: "/",
+    url: ROTA,
     title: ogTitle,
     description: ogDescription,
     images: [ogImage],

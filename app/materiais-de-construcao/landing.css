@@ -1,5 +1,6 @@
 /* =========================================================
-   Desempenho da landing (sem efeito visual).
+   Desempenho da landing /materiais-de-construcao (sem efeito visual).
+   Importado só por esta rota; as classes abaixo são exclusivas da landing.
    As seções abaixo da dobra só calculam estilo, layout e pintura quando se aproximam da
    tela (content-visibility: auto). Isso reduz o trabalho do carregamento e de operações
    que recalculam o documento inteiro (por exemplo, abrir e fechar a demonstração).
