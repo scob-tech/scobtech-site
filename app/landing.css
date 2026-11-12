@@ -1,0 +1,39 @@
+/* =========================================================
+   Desempenho da landing (sem efeito visual).
+   As seções abaixo da dobra só calculam estilo, layout e pintura quando se aproximam da
+   tela (content-visibility: auto). Isso reduz o trabalho do carregamento e de operações
+   que recalculam o documento inteiro (por exemplo, abrir e fechar a demonstração).
+   `contain-intrinsic-size: auto <altura>` reserva uma altura estimada até a primeira
+   renderização; depois o navegador lembra a altura real (sem saltos na rolagem de volta).
+   O hero e a transição ficam de fora: estão na primeira dobra e usam position: sticky.
+   ========================================================= */
+
+@layer components {
+  .sc,
+  .sv,
+  .ce,
+  .ct-contact,
+  .ct-footer {
+    content-visibility: auto;
+  }
+
+  .sc {
+    contain-intrinsic-size: auto 2000px;
+  }
+
+  .sv {
+    contain-intrinsic-size: auto 1500px;
+  }
+
+  .ce {
+    contain-intrinsic-size: auto 2000px;
+  }
+
+  .ct-contact {
+    contain-intrinsic-size: auto 800px;
+  }
+
+  .ct-footer {
+    contain-intrinsic-size: auto 120px;
+  }
+}
