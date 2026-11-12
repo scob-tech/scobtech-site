@@ -1,0 +1,718 @@
+/* =========================================================
+   Seção "O custo de uma operação desorganizada" (/preview-custo)
+   Identidade Bone & Cobalt (mesmos tokens do hero). Tudo escopado em .sc.
+   Desktop (≥1024 px): grade de 12 colunas em zigue-zague (7/5, 5/7), coluna da direita
+   deslocada para baixo. Tablet: 2 colunas. Celular: 1 coluna.
+   ========================================================= */
+
+@layer components {
+  .sc {
+    --sc-bone: #f2efe8;
+    --sc-surface: #fbfaf7;
+    --sc-ink: #12142a;
+    --sc-graphite: #22242a;
+    --sc-text: #4a4c53;
+    --sc-muted: #666870;
+    --sc-line: rgb(18 20 42 / 0.08);
+    --sc-cobalt: #254beb;
+    --sc-cobalt-tint: #e6eafc;
+    /* único acento de alerta: o terracota dos tijolos do hero (≈ 5:1 sobre branco) */
+    --sc-brick: #9a4422;
+    --sc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --sc-offset: 6rem;
+
+    position: relative;
+    padding: clamp(5rem, 10vw, 9rem) 20px clamp(5rem, 9vw, 8rem);
+    background: var(--sc-bone);
+    color: var(--sc-graphite);
+    font-family: var(--sd-font-ui), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* fundo da página no creme (o fundo global do site é escuro) */
+  html:has(.sc),
+  body:has(.sc) {
+    background: var(--sc-bone, #f2efe8);
+    color-scheme: light;
+  }
+
+  .sc ::selection {
+    background: rgb(37 75 235 / 0.2);
+    color: var(--sc-ink);
+  }
+
+  .sc-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Cabeçalho: título largo à esquerda, abertura curta à direita ---------- */
+
+  .sc-head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 1.75rem;
+    align-items: end;
+    margin-bottom: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .sc-title {
+    grid-column: 1 / 9;
+    margin: 0;
+    max-width: 14ch;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 700;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(2.5rem, 5.2vw, 4.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.026em;
+    color: var(--sc-ink);
+    text-wrap: balance;
+  }
+
+  .sc-title em {
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1em;
+    letter-spacing: -0.005em;
+    color: var(--sc-cobalt);
+  }
+
+  .sc-lead {
+    grid-column: 9 / 13;
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.02rem, 1.2vw, 1.15rem);
+    line-height: 1.62;
+    color: var(--sc-text);
+    text-wrap: pretty;
+  }
+
+  /* ---------- Grade de cartões ---------- */
+
+  .sc-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 28px;
+    /* a coluna da direita desce --sc-offset: reserva o espaço no fim da grade */
+    padding-bottom: var(--sc-offset);
+  }
+
+  .sc-card--lento {
+    grid-column: 1 / 8;
+  }
+
+  .sc-card--esquecidas {
+    grid-column: 8 / 13;
+    top: var(--sc-offset);
+  }
+
+  .sc-card--dispersas {
+    grid-column: 1 / 6;
+  }
+
+  .sc-card--indicadores {
+    grid-column: 6 / 13;
+    top: var(--sc-offset);
+  }
+
+  .sc-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: clamp(1.5rem, 2.6vw, 2.5rem);
+    border: 1px solid var(--sc-line);
+    border-radius: 28px;
+    background: var(--sc-surface);
+    box-shadow:
+      0 1px 2px rgb(18 20 42 / 0.04),
+      0 30px 60px -38px rgb(18 20 42 / 0.22);
+    transition:
+      transform 500ms var(--sc-ease),
+      box-shadow 500ms var(--sc-ease),
+      border-color 500ms var(--sc-ease);
+  }
+
+  /* cartões largos: texto e cena lado a lado */
+  .sc-card--lento,
+  .sc-card--indicadores {
+    display: grid;
+    /* a cena (1ª coluna) um pouco mais larga que o texto */
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    align-items: end;
+    column-gap: clamp(1.5rem, 3vw, 2.75rem);
+  }
+
+  .sc-card--indicadores .sc-scene {
+    order: -1;
+  }
+
+  /* a cena ocupa a altura do cartão, como uma janela: cabeçalho no topo, conteúdo na base
+     (o cartão estica até a altura da linha da grade sem deixar vazio acima do conteúdo) */
+  .sc-card--lento,
+  .sc-card--indicadores {
+    align-items: stretch;
+  }
+
+  .sc-card--lento .sc-copy,
+  .sc-card--indicadores .sc-copy {
+    align-self: end;
+  }
+
+  .sc-card--lento .sc-scene,
+  .sc-card--indicadores .sc-scene {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sc-chat {
+    flex: 1;
+  }
+
+  .sc-chat-top + .sc-bubble,
+  .sc-panel-top + .sc-metrics {
+    margin-top: auto;
+  }
+
+  .sc-panel-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 2px 14px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--sc-line);
+    font-weight: 600;
+  }
+
+  .sc-panel-top > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .sc-panel-tag {
+    flex: none;
+    white-space: nowrap;
+    padding: 3px 10px;
+    border: 1px dashed rgb(18 20 42 / 0.2);
+    border-radius: 999px;
+    color: var(--sc-muted);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .sc-card-title {
+    margin: 0 0 0.75rem;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 600;
+    font-variation-settings: "opsz" 36;
+    font-size: clamp(1.35rem, 1.75vw, 1.7rem);
+    line-height: 1.16;
+    letter-spacing: -0.014em;
+    color: var(--sc-ink);
+    text-wrap: balance;
+  }
+
+  .sc-card-text {
+    margin: 0;
+    max-width: 46ch;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--sc-text);
+    text-wrap: pretty;
+  }
+
+  /* cena: um recorte da operação, num painel rebaixado */
+  .sc-scene {
+    position: relative;
+    padding: 18px;
+    border-radius: 20px;
+    background: var(--sc-bone);
+    box-shadow: inset 0 0 0 1px rgb(18 20 42 / 0.05);
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--sc-graphite);
+    user-select: none;
+  }
+
+  .sc-scene svg {
+    flex: none;
+    width: 15px;
+    height: 15px;
+    stroke-width: 1.8;
+  }
+
+  .sc-scene,
+  .sc-scene * {
+    transition:
+      transform 500ms var(--sc-ease),
+      opacity 500ms var(--sc-ease),
+      background-color 500ms var(--sc-ease),
+      color 500ms var(--sc-ease);
+  }
+
+  .sc-avatar {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--sc-cobalt-tint);
+    color: var(--sc-cobalt);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* 1 — conversa sem resposta */
+  .sc-chat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .sc-chat-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--sc-line);
+  }
+
+  .sc-chat-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .sc-chat-icon {
+    color: var(--sc-muted);
+  }
+
+  .sc-bubble {
+    max-width: 88%;
+    margin: 0;
+    padding: 10px 12px 8px;
+    border-radius: 14px 14px 14px 4px;
+    background: #fff;
+    box-shadow: 0 1px 1px rgb(18 20 42 / 0.06);
+  }
+
+  .sc-bubble time {
+    display: block;
+    margin-top: 4px;
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--sc-muted);
+  }
+
+  .sc-wait {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 4px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgb(154 68 34 / 0.09);
+    color: var(--sc-brick);
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* 2 — caixa de entrada esquecida: as conversas mais antigas vão apagando */
+  .sc-inbox {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sc-inbox li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .sc-inbox li + li {
+    border-top: 1px solid var(--sc-line);
+  }
+
+  .sc-inbox li:nth-child(2) {
+    opacity: 0.7;
+  }
+
+  .sc-inbox li:nth-child(3) {
+    opacity: 0.42;
+  }
+
+  .sc-inbox-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sc-inbox-text b {
+    font-weight: 600;
+  }
+
+  .sc-inbox-text span {
+    overflow: hidden;
+    font-size: 13px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--sc-muted);
+  }
+
+  .sc-inbox-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    font-size: 11.5px;
+    color: var(--sc-muted);
+  }
+
+  .sc-inbox-meta i {
+    display: inline-grid;
+    place-items: center;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--sc-cobalt);
+    color: #fff;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sc-inbox-more {
+    margin: 6px 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed rgb(18 20 42 / 0.14);
+    color: var(--sc-brick);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* 3 — informação espalhada em fragmentos sobrepostos */
+  .sc-scatter {
+    position: relative;
+    height: 224px;
+  }
+
+  .sc-frag {
+    position: absolute;
+    display: flex;
+    border-radius: 12px;
+    box-shadow:
+      0 1px 2px rgb(18 20 42 / 0.06),
+      0 12px 24px -16px rgb(18 20 42 / 0.3);
+  }
+
+  .sc-frag--sheet {
+    top: 6px;
+    left: 0;
+    flex-direction: column;
+    gap: 8px;
+    width: min(250px, 78%);
+    padding: 10px 12px 12px;
+    background: #fff;
+    transform: rotate(-3.5deg);
+  }
+
+  .sc-frag-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--sc-muted);
+  }
+
+  .sc-cells {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border: 1px solid #e4e1d8;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sc-cells span {
+    padding: 5px 8px;
+  }
+
+  .sc-cells span:nth-child(-n + 2) {
+    border-bottom: 1px solid #e4e1d8;
+  }
+
+  .sc-cells span:nth-child(odd) {
+    border-right: 1px solid #e4e1d8;
+  }
+
+  .sc-cells span:nth-child(2) {
+    color: var(--sc-brick);
+    font-weight: 600;
+  }
+
+  .sc-frag--note {
+    top: 74px;
+    right: 0;
+    align-items: center;
+    gap: 8px;
+    max-width: 62%;
+    padding: 14px 16px;
+    border-radius: 4px;
+    background: #fbf3d2;
+    color: #4a3d14;
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.15;
+    transform: rotate(4.5deg);
+  }
+
+  .sc-frag--msg {
+    bottom: 4px;
+    left: 8%;
+    align-items: flex-end;
+    gap: 8px;
+    max-width: 74%;
+    padding: 10px 12px;
+    border-radius: 14px 14px 4px 14px;
+    background: #d9f5d3;
+    font-size: 13.5px;
+    transform: rotate(-1.5deg);
+  }
+
+  .sc-frag--msg svg {
+    color: var(--sc-cobalt);
+  }
+
+  /* 4 — painel de indicadores vazio */
+  .sc-metrics {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .sc-metrics > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 12px;
+    row-gap: 8px;
+    padding: 12px 2px;
+  }
+
+  .sc-metrics > div + div {
+    border-top: 1px solid var(--sc-line);
+  }
+
+  .sc-metrics dt {
+    font-size: 13.5px;
+    color: var(--sc-text);
+  }
+
+  .sc-metrics dd {
+    margin: 0;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: #b9b6ad;
+  }
+
+  .sc-track {
+    grid-column: 1 / -1;
+    height: 6px;
+    border-radius: 999px;
+    background: repeating-linear-gradient(90deg, rgb(18 20 42 / 0.12) 0 8px, transparent 8px 14px);
+  }
+
+  /* ---------- Hover: o cartão se aproxima e a cena reage de leve ---------- */
+
+  @media (hover: hover) and (pointer: fine) {
+    .sc-card:hover {
+      transform: translateY(-4px);
+      border-color: rgb(37 75 235 / 0.2);
+      box-shadow:
+        0 1px 2px rgb(18 20 42 / 0.05),
+        0 40px 70px -40px rgb(27 56 184 / 0.32);
+    }
+
+    /* a espera pesa mais */
+    .sc-card--lento:hover .sc-wait {
+      background: rgb(154 68 34 / 0.15);
+    }
+
+    .sc-card--lento:hover .sc-bubble--late {
+      transform: translateY(-2px);
+    }
+
+    /* as conversas antigas apagam mais */
+    .sc-card--esquecidas:hover .sc-inbox li:nth-child(2) {
+      opacity: 0.55;
+    }
+
+    .sc-card--esquecidas:hover .sc-inbox li:nth-child(3) {
+      opacity: 0.25;
+    }
+
+    /* os fragmentos se espalham */
+    .sc-card--dispersas:hover .sc-frag--sheet {
+      transform: translate(-4px, -4px) rotate(-5.5deg);
+    }
+
+    .sc-card--dispersas:hover .sc-frag--note {
+      transform: translate(5px, -3px) rotate(7deg);
+    }
+
+    .sc-card--dispersas:hover .sc-frag--msg {
+      transform: translate(-3px, 4px) rotate(-3deg);
+    }
+
+    /* os trilhos vazios ganham o tom cobalto: o espaço que deveria ter dados */
+    .sc-card--indicadores:hover .sc-track {
+      background: repeating-linear-gradient(90deg, rgb(37 75 235 / 0.28) 0 8px, transparent 8px 14px);
+    }
+  }
+
+  /* ---------- Fechamento ---------- */
+
+  .sc-close {
+    max-width: 30ch;
+    margin: clamp(3.5rem, 7vw, 6rem) 0 0 calc(5 / 12 * 100%);
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 400;
+    font-variation-settings: "opsz" 48;
+    font-size: clamp(1.45rem, 2.4vw, 2.2rem);
+    line-height: 1.26;
+    letter-spacing: -0.01em;
+    color: var(--sc-graphite);
+    text-wrap: balance;
+  }
+
+  .sc-close em {
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: var(--sc-cobalt);
+  }
+
+  /* ---------- Tablet (700–1023 px): duas colunas ---------- */
+
+  @media (max-width: 1023px) {
+    .sc {
+      --sc-offset: 0rem;
+    }
+
+    .sc-head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sc-title,
+    .sc-lead {
+      grid-column: 1;
+    }
+
+    .sc-lead {
+      max-width: 52ch;
+      margin: 0;
+    }
+
+    .sc-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .sc-card--lento,
+    .sc-card--indicadores {
+      grid-column: 1 / -1;
+    }
+
+    .sc-card--esquecidas {
+      grid-column: 1;
+    }
+
+    .sc-card--dispersas {
+      grid-column: 2;
+    }
+
+    .sc-close {
+      margin-left: 0;
+    }
+  }
+
+  /* ---------- Celular e tablet estreito (< 700 px): uma coluna, cena acima do texto
+     (abaixo de 700 px os dois cartões lado a lado ficariam estreitos demais) ---------- */
+
+  @media (max-width: 699px) {
+    .sc-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .sc-card--esquecidas,
+    .sc-card--dispersas {
+      grid-column: 1;
+    }
+
+    .sc-card--lento,
+    .sc-card--indicadores {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .sc-card--lento .sc-scene {
+      order: -1;
+    }
+
+    .sc-card {
+      gap: 1.5rem;
+      padding: 18px 18px 24px;
+      border-radius: 22px;
+    }
+
+    .sc-copy {
+      padding: 0 4px;
+    }
+
+    .sc-scene {
+      padding: 14px;
+      border-radius: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sc-card,
+    .sc-scene,
+    .sc-scene * {
+      transition: none;
+    }
+
+    .sc-card:hover {
+      transform: none;
+    }
+  }
+}
