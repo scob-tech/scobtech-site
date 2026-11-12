@@ -1,0 +1,390 @@
+/* =========================================================
+   Demonstração de Atendimento & Vendas — identidade Bone & Cobalt
+   Tudo escopado em .sd (painel) e .sd-page (rota de demonstração).
+   Redefine os tokens do design system do site só dentro desse escopo,
+   para não afetar a home nem /experiencia.
+   ========================================================= */
+
+@layer components {
+.sd,
+.sd-page {
+  --sd-bone: #f2efe8;
+  --sd-paper: #fbfaf6;
+  --sd-cobalt: #254beb;
+  --sd-cobalt-ink: #1b38b8; /* hover/pressed */
+  --sd-cobalt-wash: #e6eafc;
+  --sd-graphite: #22242a;
+  --sd-stone: #c6c4bc;
+  --sd-muted: #5a5c63; /* ≈ 5.9:1 sobre bone, 6.6:1 sobre paper */
+  --sd-line: #dcd9d0;
+  --sd-line-strong: #c6c4bc;
+  --sd-ok: #1d6b45; /* ≈ 6:1 sobre paper */
+  --sd-ok-wash: #e3f0e8;
+  --sd-warn: #8a4b00; /* ≈ 6.4:1 sobre paper */
+  --sd-warn-wash: #f7ead6;
+  --sd-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* tokens do site reapontados (bordas globais, foco) */
+  --border: var(--sd-line);
+  --ring: var(--sd-cobalt);
+
+  color: var(--sd-graphite);
+  font-family: var(--sd-font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sd h1,
+.sd h2,
+.sd h3,
+.sd h4,
+.sd-page h1,
+.sd-page h2 {
+  font-family: var(--sd-font-title), Georgia, serif;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+.sd .sd-ui-heading {
+  font-family: var(--sd-font-ui), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.sd-accent {
+  font-family: var(--sd-font-accent), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sd ::selection,
+.sd-page ::selection {
+  background: color-mix(in srgb, var(--sd-cobalt) 22%, transparent);
+  color: var(--sd-graphite);
+}
+
+.sd :focus-visible,
+.sd-page :focus-visible {
+  outline: 2px solid var(--sd-cobalt);
+  outline-offset: 2px;
+}
+
+.sd * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sd-stone) transparent;
+}
+
+.sd .tabular,
+.sd-page .tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Página de demonstração ---------- */
+
+html:has(.sd-page),
+body:has(.sd-page) {
+  background: var(--sd-bone, #f2efe8);
+  color-scheme: light;
+}
+
+.sd-page {
+  background: var(--sd-bone);
+}
+
+/* ---------- Painel (diálogo) ---------- */
+
+.sd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgb(34 36 42 / 0.42);
+}
+
+.sd-dialog {
+  position: fixed;
+  z-index: 81;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--sd-bone);
+  overflow: hidden;
+  color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  .sd-dialog {
+    inset: 2.5vh 2.5vw;
+    max-width: 1320px;
+    margin-inline: auto;
+    border-radius: 18px;
+    border: 1px solid var(--sd-line-strong);
+    box-shadow:
+      0 40px 80px -24px rgb(34 36 42 / 0.45),
+      0 2px 6px rgb(34 36 42 / 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sd-overlay[data-state="open"] {
+    animation: sd-fade 200ms var(--sd-ease);
+  }
+  .sd-dialog[data-state="open"] {
+    animation: sd-rise 320ms var(--sd-ease);
+  }
+}
+
+@keyframes sd-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+/* ---------- Controles ---------- */
+
+.sd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background-color 160ms var(--sd-ease),
+    border-color 160ms var(--sd-ease),
+    color 160ms var(--sd-ease),
+    transform 120ms var(--sd-ease);
+  cursor: pointer;
+}
+
+.sd-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.sd-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.sd-btn-primary {
+  background: var(--sd-cobalt);
+  color: #fff;
+}
+
+.sd-btn-primary:hover:not(:disabled) {
+  background: var(--sd-cobalt-ink);
+}
+
+.sd-btn-outline {
+  border: 1.5px solid var(--sd-cobalt);
+  color: var(--sd-cobalt);
+  background: transparent;
+}
+
+.sd-btn-outline:hover:not(:disabled) {
+  background: var(--sd-cobalt-wash);
+}
+
+.sd-btn-ghost {
+  color: var(--sd-graphite);
+  background: transparent;
+}
+
+.sd-btn-ghost:hover:not(:disabled) {
+  background: rgb(34 36 42 / 0.06);
+}
+
+.sd-btn-sm {
+  min-height: 2.25rem;
+  padding: 0 0.8rem;
+  font-size: 0.8125rem;
+}
+
+@media (pointer: coarse) {
+  .sd-btn,
+  .sd-btn-sm {
+    min-height: 2.75rem;
+  }
+}
+
+.sd-field {
+  width: 100%;
+  min-height: 2.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--sd-line-strong);
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem; /* ≥ 15px; 16px no toque evita zoom no iOS */
+  color: var(--sd-graphite);
+  transition: border-color 160ms var(--sd-ease);
+}
+
+@media (pointer: coarse) {
+  .sd-field {
+    font-size: 1rem;
+  }
+}
+
+.sd-field:hover {
+  border-color: var(--sd-muted);
+}
+
+.sd-field:focus-visible {
+  outline: 2px solid var(--sd-cobalt);
+  outline-offset: 0;
+  border-color: var(--sd-cobalt);
+}
+
+.sd-field::placeholder {
+  color: #77797f;
+}
+
+.sd-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--sd-graphite);
+}
+
+.sd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.sd-chip-cobalt {
+  background: var(--sd-cobalt-wash);
+  color: var(--sd-cobalt-ink);
+}
+
+.sd-chip-ok {
+  background: var(--sd-ok-wash);
+  color: var(--sd-ok);
+}
+
+.sd-chip-warn {
+  background: var(--sd-warn-wash);
+  color: var(--sd-warn);
+}
+
+.sd-chip-neutral {
+  background: rgb(34 36 42 / 0.07);
+  color: var(--sd-graphite);
+}
+
+/* Abas (Radix Tabs) */
+.sd-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sd-muted);
+  transition: color 160ms var(--sd-ease);
+}
+
+.sd-tab:hover {
+  color: var(--sd-graphite);
+}
+
+.sd-tab[data-state="active"] {
+  color: var(--sd-cobalt);
+}
+
+.sd-tab::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--sd-cobalt);
+  transform: scaleX(0);
+  transition: transform 220ms var(--sd-ease);
+}
+
+.sd-tab[data-state="active"]::after {
+  transform: scaleX(1);
+}
+
+/* Abas na base da tela no celular */
+@media (max-width: 767px) {
+  .sd-tab {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    min-height: 3.5rem;
+    font-size: 0.6875rem;
+    padding: 0;
+  }
+  .sd-tab::after {
+    inset: -1px 25% auto 25%;
+  }
+}
+
+/* Mensagens */
+.sd-bubble {
+  max-width: min(78%, 34rem);
+  border-radius: 14px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.sd-bubble-in {
+  background: #fff;
+  border: 1px solid var(--sd-line);
+  border-bottom-left-radius: 4px;
+}
+
+.sd-bubble-out {
+  background: var(--sd-cobalt-wash);
+  border-bottom-right-radius: 4px;
+}
+
+.sd-row-btn {
+  transition: background-color 140ms var(--sd-ease);
+}
+
+.sd-row-btn:hover {
+  background: rgb(34 36 42 / 0.04);
+}
+
+.sd-row-btn[aria-current="true"] {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--sd-line);
+}
+
+/* Entrada de item novo (lead, tarefa da análise): uma vez, curta */
+@media (prefers-reduced-motion: no-preference) {
+  .sd-enter {
+    animation: sd-enter 360ms var(--sd-ease);
+  }
+}
+
+@keyframes sd-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+}

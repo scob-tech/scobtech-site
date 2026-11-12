@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --test lib/demo-atendimento/engine.test.ts"
   },
   "dependencies": {
     "@next/third-parties": "^15.5.25",
