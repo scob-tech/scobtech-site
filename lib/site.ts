@@ -19,9 +19,14 @@ export const site = {
   whatsappProjeto: whatsappUrl("Olá! Quero conversar sobre um projeto para a minha empresa."),
 };
 
+/**
+ * Âncoras da página inicial (landing Bone & Cobalt), usadas na coluna "Navegar" do rodapé
+ * de /privacy. Só destinos que existem na landing: os títulos da vitrine, do case e do
+ * contato. As âncoras da página anterior (#comparacao, #cases, #processo, #sobre) não
+ * existem mais.
+ */
 export const nav = [
-  { label: "Diferencial", href: "#comparacao" },
-  { label: "Cases", href: "#cases" },
-  { label: "Como funciona", href: "#processo" },
-  { label: "Sobre", href: "#sobre" },
+  { label: "Soluções", href: "#sv-titulo" },
+  { label: "Case real", href: "#ce-titulo" },
+  { label: "Contato", href: "#ct-titulo" },
 ];
