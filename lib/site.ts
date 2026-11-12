@@ -1,3 +1,11 @@
+/** Número comercial do WhatsApp (confirmado: +55 11 93913-0859). Única fonte do número no site. */
+const WHATSAPP_NUMERO = "5511939130859";
+
+/** Link wa.me para o número comercial com a mensagem pré-preenchida. */
+export function whatsappUrl(mensagem: string) {
+  return `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
+}
+
 export const site = {
   name: "scob.",
   url: "https://scobtech.com.br",
@@ -5,9 +13,10 @@ export const site = {
   founder: "Silvio",
   founderFullName: "Silvio Arruda",
   email: "silvio@scobtech.com.br",
-  whatsapp:
-    "https://wa.me/5511939130859?text=Ol%C3%A1%2C%20quero%20agendar%20um%20diagn%C3%B3stico%20com%20a%20scob.",
-  whatsappChat: "https://wa.me/5511939130859?text=Ol%C3%A1%2C%20quero%20falar%20com%20a%20scob.",
+  whatsapp: whatsappUrl("Olá, quero agendar um diagnóstico com a scob."),
+  whatsappChat: whatsappUrl("Olá, quero falar com a scob."),
+  /** CTA final da landing (seção de contato). */
+  whatsappProjeto: whatsappUrl("Olá! Quero conversar sobre um projeto para a minha empresa."),
 };
 
 export const nav = [

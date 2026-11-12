@@ -9,6 +9,8 @@ const BASE_URL = "https://scobtech.com.br";
 // por isso não entram aqui. Ao criar uma nova página em app/, adicione a rota nesta lista.
 const routes: { path: string; priority: number }[] = [
   { path: "/", priority: 1 },
+  // landing segmentada (Bone & Cobalt)
+  { path: "/materiais-de-construcao", priority: 0.8 },
   { path: "/privacy", priority: 0.3 },
 ];
 

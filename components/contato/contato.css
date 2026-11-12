@@ -1,0 +1,388 @@
+/* =========================================================
+   Seção final: contato comercial + rodapé (/preview-contato)
+   Bone & Cobalt. Uma pergunta grande, uma frase, um CTA. Rodapé quieto.
+   Tudo escopado em .ct.
+   ========================================================= */
+
+@layer components {
+  .ct {
+    --ct-bone: #f2efe8;
+    --ct-ink: #12142a;
+    --ct-graphite: #22242a;
+    --ct-text: #3d3f47;
+    --ct-muted: #63656d;
+    --ct-line: rgb(18 20 42 / 0.1);
+    --ct-cobalt: #254beb;
+    --ct-cobalt-ink: #1b38b8;
+    --ct-cobalt-tint: #e6eafc;
+    --ct-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    position: relative;
+    overflow-x: clip;
+    background: var(--ct-bone);
+    color: var(--ct-graphite);
+    font-family: var(--sd-font-ui), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html:has(.ct),
+  body:has(.ct) {
+    background: #f2efe8;
+    color-scheme: light;
+  }
+
+  .ct ::selection {
+    background: rgb(37 75 235 / 0.2);
+    color: var(--ct-ink);
+  }
+
+  .ct :focus-visible {
+    outline: 2px solid var(--ct-cobalt);
+    outline-offset: 3px;
+  }
+
+  .ct-inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Contato ---------- */
+
+  .ct-contact {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+    padding: clamp(5.5rem, 11vw, 10rem) 20px clamp(4.5rem, 8vw, 7.5rem);
+  }
+
+  /* brilho lavanda do hero, bem mais contido: fecha a página com a mesma luz que a abre */
+  .ct-glow {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: radial-gradient(
+      ellipse min(46vw, 620px) min(30vw, 380px) at 84% 62%,
+      rgb(201 205 247 / 0.5),
+      rgb(201 205 247 / 0.16) 55%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .ct-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ct-ink);
+  }
+
+  /* o quadrado cobalto é o ponto final da marca "scob." */
+  .ct-kicker-mark {
+    width: 0.62em;
+    height: 0.62em;
+    background: var(--ct-cobalt);
+  }
+
+  .ct-title {
+    margin: clamp(1.4rem, 2.6vw, 2.2rem) 0 0;
+    max-width: 17ch;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 700;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(2.5rem, 6.6vw, 6.4rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--ct-ink);
+    text-wrap: balance;
+  }
+
+  .ct-title em {
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1em;
+    letter-spacing: -0.01em;
+    color: var(--ct-cobalt);
+  }
+
+  .ct-row {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 2rem;
+    align-items: start;
+    margin-top: clamp(2.5rem, 5vw, 4.25rem);
+    padding-top: clamp(1.75rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--ct-line);
+  }
+
+  .ct-text {
+    grid-column: 1 / 7;
+    margin: 0;
+    max-width: 44ch;
+    font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--ct-text);
+    text-wrap: pretty;
+  }
+
+  .ct-action {
+    grid-column: 8 / 13;
+    justify-self: end;
+    display: grid;
+    justify-items: end;
+    gap: 0.9rem;
+  }
+
+  /* ---------- CTA ---------- */
+
+  .ct-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+    min-height: 64px;
+    padding: 0.5rem 0.5rem 0.5rem 1.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ct-cobalt);
+    color: #fff;
+    font: inherit;
+    font-size: clamp(1rem, 1.2vw, 1.12rem);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.18) inset,
+      0 0.9em 2em -0.9em rgb(37 75 235 / 0.75);
+    transition:
+      background-color 220ms var(--ct-ease),
+      box-shadow 220ms var(--ct-ease),
+      transform 160ms var(--ct-ease);
+  }
+
+  .ct-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .ct-cta-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ct-cobalt);
+    transition: transform 260ms var(--ct-ease);
+  }
+
+  .ct-cta-icon svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 260ms var(--ct-ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ct-cta:hover {
+      background: var(--ct-cobalt-ink);
+      box-shadow:
+        0 1px 0 rgb(255 255 255 / 0.18) inset,
+        0 1.1em 2.4em -0.9em rgb(37 75 235 / 0.85);
+    }
+
+    .ct-cta:hover .ct-cta-icon {
+      transform: scale(1.06);
+    }
+
+    .ct-cta:hover .ct-cta-icon svg {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  .ct-cta:active {
+    transform: scale(0.97);
+  }
+
+  /* ---------- Rodapé ---------- */
+
+  .ct-footer {
+    padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 2rem);
+  }
+
+  .ct-footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ct-line);
+  }
+
+  .ct-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  /* recorte da marca "scob." no arquivo oficial (caixa 980×285 a partir de x95/y210) */
+  .ct-logo {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 92px;
+    aspect-ratio: 980 / 285;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .ct-logo img {
+    position: absolute;
+    left: -9.69%;
+    top: -73.68%;
+    width: 221.63%;
+    max-width: none;
+    height: auto;
+  }
+
+  .ct-motto {
+    margin: 0;
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--ct-line);
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--ct-graphite);
+  }
+
+  .ct-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 2rem;
+    font-size: 0.82rem;
+    color: var(--ct-muted);
+  }
+
+  .ct-links {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ct-links a {
+    color: var(--ct-graphite);
+    text-decoration: underline;
+    text-decoration-color: rgb(18 20 42 / 0.25);
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color 180ms var(--ct-ease);
+  }
+
+  .ct-links a:hover {
+    text-decoration-color: var(--ct-cobalt);
+  }
+
+  .ct-legal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ct-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* ---------- Responsivo ---------- */
+
+  @media (max-width: 899px) {
+    .ct-text,
+    .ct-action {
+      grid-column: 1 / -1;
+    }
+
+    .ct-action {
+      justify-self: start;
+      justify-items: start;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .ct-title {
+      max-width: none;
+    }
+
+    .ct-action {
+      justify-self: stretch;
+      justify-items: stretch;
+    }
+
+    .ct-cta {
+      justify-content: space-between;
+      min-height: 58px;
+      padding-left: 1.4rem;
+    }
+
+    .ct-cta-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .ct-footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ct-brand {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+
+    .ct-motto {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .ct-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ct-cta,
+    .ct-cta-icon,
+    .ct-cta-icon svg,
+    .ct-links a {
+      transition: none;
+    }
+
+    .ct-cta:active,
+    .ct-cta:hover .ct-cta-icon,
+    .ct-cta:hover .ct-cta-icon svg {
+      transform: none;
+    }
+  }
+}

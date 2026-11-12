@@ -1,0 +1,477 @@
+/* =========================================================
+   Transição em continuidade com o hero (/preview-hero)
+   Padrão (sem JS ou com movimento reduzido): hero e, abaixo dele, o quadro final.
+   [data-motion]: o JS liga o modo animado (palco preso + variáveis por scroll).
+   ========================================================= */
+
+/* Desempenho (sem efeito visual): as variáveis numéricas da animação são registradas com
+   tipo. O navegador as trata como números, sem reprocessar texto a cada quadro, e as
+   intermediárias não são herdadas (cada letra/objeto calcula só para si). Isso reduz o
+   recálculo de estilo durante a rolagem. Nomes conferidos: nenhum outro componente da
+   página usa --p, --i, --q, --u, --ss-t ou --ss-e (--t e --w do hero NÃO são registrados). */
+@property --p {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --i {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --ss-t {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --ss-e {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --q {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --u {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@layer components {
+  .ss {
+    /* mesmo creme e grafite do hero */
+    --ss-bone: #f2efe8;
+    --ss-graphite: #22242a;
+    --ss-cobalt: #254beb;
+    /* trecho em que o palco fica preso, depois de chegar ao topo */
+    --ss-pin: 40svh;
+    position: relative;
+    background: var(--ss-bone);
+  }
+
+  @media (max-width: 1023px) {
+    .ss {
+      --ss-pin: 30svh;
+    }
+  }
+
+  .ss ::selection {
+    background: rgb(37 75 235 / 0.2);
+    color: var(--ss-graphite);
+  }
+
+  /* ---------- Mensagens ---------- */
+
+  .ss-statement {
+    position: relative;
+    color: var(--ss-graphite);
+  }
+
+  /* Continuidade com o hero: a base dele tem um brilho lavanda (elipse 80% × 40% da altura,
+     centrada a 78% da altura). Abaixo do hero, o mesmo brilho continua até sumir.
+
+     Modo estático (sem JS ou com movimento reduzido): a continuação é um pseudo-elemento
+     logo abaixo do hero, com altura em % da altura DELE (0,4 × H), então a elipse fica
+     exata sem medir nada: raio vertical 100% da caixa, centro a −55% (= −0,22 × H). */
+  .ss-hero {
+    position: relative;
+  }
+
+  .ss:not([data-motion]) .ss-hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 40%;
+    pointer-events: none;
+    background: radial-gradient(ellipse 80% 100% at 50% -55%, rgb(214 214 250 / 0.55) 0%, transparent 70%);
+  }
+
+  /* palco de 100svh: as frases centralizadas e, atrás delas, os objetos de obra
+     (transparente no modo estático: aparecem o creme da página e a continuação acima) */
+  .ss-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    padding: 0 20px;
+  }
+
+  .ss-block {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1080px;
+    text-align: center;
+  }
+
+  .ss-line1 {
+    margin: 0 auto;
+    max-width: 15ch;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 700;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(2.3rem, 5.6vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.024em;
+    color: var(--ss-graphite);
+    text-wrap: balance;
+  }
+
+  .ss-line2 {
+    margin: clamp(1.25rem, 2.6vw, 2.25rem) auto 0;
+    max-width: 30ch;
+    font-family: var(--sd-font-title), Georgia, serif;
+    font-weight: 400;
+    font-variation-settings: "opsz" 48;
+    font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    /* grafite um pouco mais suave que o título (contraste ≈ 9:1 sobre o creme) */
+    color: #3a3c43;
+    text-wrap: balance;
+  }
+
+  /* destaque: a consequência, em itálico de acento e cobalto (contraste ≈ 5,5:1) */
+  .ss-impact {
+    font-family: var(--sd-font-accent), Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.14em;
+    line-height: 1.1;
+    letter-spacing: 0;
+    color: var(--ss-cobalt);
+  }
+
+  .ss-line3 {
+    margin: clamp(1.5rem, 3vw, 2.5rem) auto 0;
+    max-width: 46ch;
+    font-family: var(--sd-font-ui), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    line-height: 1.55;
+    /* contraste ≈ 7:1 sobre o creme */
+    color: #4a4c53;
+    text-wrap: pretty;
+  }
+
+  /* texto completo para leitores de tela (as letras visíveis ficam em aria-hidden) */
+  .ss-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ---------- Revelação por letras / palavras ----------
+     --p: progresso da frase (0 → 1), escrito pelo JS; padrão 1 = texto completo (sem JS
+     ou com movimento reduzido). Cada unidade calcula t = (p − i·k) / w (--ss-t), limitado a [0, 1],
+     suavizado com ease-out cúbico (sem quique). A descida usa `top` em spans INLINE com
+     `position: relative`, preservando kerning e ligaduras (transform exigiria
+     inline-block e quebraria o desenho da fonte). */
+  .ss-split {
+    --p: 1;
+  }
+
+  .ss-ch,
+  .ss-wd {
+    position: relative;
+    /* +0.001: folga contra arredondamento (o texto final fica exatamente na posição) */
+    --ss-t: clamp(0, (var(--p) - var(--i) * var(--k)) / var(--w) + 0.001, 1);
+    --ss-e: calc(1 - (1 - var(--ss-t)) * (1 - var(--ss-t)) * (1 - var(--ss-t)));
+    opacity: var(--ss-e);
+    top: calc((1 - var(--ss-e)) * var(--dy));
+  }
+
+  .ss-ch {
+    --dy: -20px;
+  }
+
+  /* a consequência desce de um pouco mais alto */
+  .ss-impact .ss-ch {
+    --dy: -24px;
+  }
+
+  /* frase de apoio: entrada simples por palavras */
+  .ss-wd {
+    --dy: -10px;
+  }
+
+  /* ---------- Objetos de obra ----------
+     Cada objeto define, por faixa de largura:
+       --x / --y   centro da posição final (% da largura do palco / svh)
+       --w         largura (o alto vem da proporção --ar, escrita no HTML)
+       --dx / --dy deslocamento de origem, fora da tela (vw / svh)
+       --r / --s   giro e escala de origem (acomodam até 0° e 1)
+       --op        opacidade final: planos ao fundo levemente atenuados (perspectiva aérea)
+     --q (0 → 1, já suavizado) vem do JS; padrão 1 = posição final (sem JS ou com
+     movimento reduzido). Só transform e opacity mudam durante a rolagem. */
+  .ss-props {
+    position: absolute;
+    inset: 0;
+    overflow: clip;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .ss-prop {
+    --q: 1;
+    --u: calc(1 - var(--q));
+    --op: 1;
+    --dx: 0vw;
+    --dy: 0svh;
+    --r: 0deg;
+    --s: 1;
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    max-width: none;
+    height: auto;
+    margin-left: calc(var(--w) / -2);
+    margin-top: calc(var(--w) * var(--ar) / -2);
+    opacity: calc(min(1, var(--q) * 1.6) * var(--op));
+    transform: translate3d(calc(var(--u) * var(--dx)), calc(var(--u) * var(--dy)), 0)
+      rotate(calc(var(--u) * var(--r))) scale(calc(1 + var(--u) * (var(--s) - 1)));
+  }
+
+  /* Desktop (≥ 1024 px): sete objetos, três à esquerda, três à direita e um embaixo.
+     Primeiro plano: capacete, tijolos, martelo. Intermediário: chave, cimento, chave de
+     fenda. Fundo: trena. */
+  .ss-prop--capacete {
+    --x: 84%;
+    --y: 17svh;
+    --w: clamp(130px, 12vw, 230px);
+    --dx: 30vw;
+    --dy: -45svh;
+    --r: 5deg;
+    --s: 1.12;
+  }
+
+  .ss-prop--tijolos {
+    --x: 13%;
+    --y: 82svh;
+    --w: clamp(150px, 14vw, 260px);
+    --dx: -34vw;
+    --dy: 40svh;
+    --r: -4deg;
+    --s: 1.1;
+  }
+
+  .ss-prop--martelo {
+    --x: 13%;
+    --y: 16svh;
+    --w: clamp(130px, 13vw, 240px);
+    --dx: -34vw;
+    --dy: -40svh;
+    --r: -6deg;
+    --s: 1.15;
+  }
+
+  .ss-prop--trena {
+    --x: 10%;
+    --y: 45svh;
+    --w: clamp(120px, 11vw, 200px);
+    --dx: -28vw;
+    --dy: -3svh;
+    --r: -5deg;
+    --s: 0.9;
+    --op: 0.8;
+  }
+
+  .ss-prop--chave {
+    --x: 89%;
+    --y: 52svh;
+    --w: clamp(130px, 12vw, 220px);
+    --dx: 26vw;
+    --dy: -6svh;
+    --r: 6deg;
+    --s: 1.08;
+    --op: 0.92;
+  }
+
+  .ss-prop--cimento {
+    --x: 86%;
+    --y: 82svh;
+    --w: clamp(105px, 9vw, 170px);
+    --dx: 24vw;
+    --dy: 34svh;
+    --r: 4deg;
+    --s: 0.92;
+    --op: 0.92;
+  }
+
+  .ss-prop--chave-fenda {
+    --x: 62%;
+    --y: 90svh;
+    --w: clamp(115px, 11vw, 200px);
+    --dx: 22vw;
+    --dy: 30svh;
+    --r: 5deg;
+    --s: 0.9;
+    --op: 0.92;
+  }
+
+  /* Tablet (600–1023 px): laterais estreitas; seis objetos em dois arcos, acima e abaixo
+     das frases (a trena sai) */
+  @media (max-width: 1023px) {
+    .ss-prop--trena {
+      display: none;
+    }
+
+    .ss-prop--martelo {
+      --x: 17%;
+      --y: 17svh;
+      --w: clamp(110px, 19vw, 170px);
+      --dx: -40vw;
+      --dy: -30svh;
+    }
+
+    .ss-prop--capacete {
+      --x: 80%;
+      --y: 15svh;
+      --w: clamp(110px, 19vw, 170px);
+      --dx: 40vw;
+      --dy: -30svh;
+    }
+
+    .ss-prop--chave {
+      --x: 50%;
+      --y: 27svh;
+      --w: clamp(100px, 17vw, 150px);
+      --dx: 62vw;
+      --dy: -4svh;
+    }
+
+    .ss-prop--tijolos {
+      --x: 18%;
+      --y: 84svh;
+      --w: clamp(120px, 22vw, 190px);
+      --dx: -40vw;
+      --dy: 25svh;
+    }
+
+    .ss-prop--chave-fenda {
+      --x: 52%;
+      --y: 91svh;
+      --w: clamp(100px, 17vw, 150px);
+      --dx: 24vw;
+      --dy: 22svh;
+    }
+
+    .ss-prop--cimento {
+      --x: 82%;
+      --y: 84svh;
+      --w: clamp(90px, 14vw, 130px);
+      --dx: 36vw;
+      --dy: 25svh;
+    }
+  }
+
+  /* Celular (< 600 px): a mensagem tem prioridade; quatro objetos, dois na faixa de
+     cima e dois na de baixo, sem cruzar as frases */
+  @media (max-width: 599px) {
+    .ss-prop--chave,
+    .ss-prop--chave-fenda {
+      display: none;
+    }
+
+    .ss-prop--martelo {
+      --x: 16%;
+      --y: 11svh;
+      --w: clamp(80px, 25vw, 120px);
+      --dx: -40vw;
+      --dy: -24svh;
+    }
+
+    .ss-prop--capacete {
+      --x: 82%;
+      --y: 12svh;
+      --w: clamp(80px, 24vw, 115px);
+      --dx: 40vw;
+      --dy: -24svh;
+    }
+
+    .ss-prop--tijolos {
+      --x: 20%;
+      --y: 88svh;
+      --w: clamp(90px, 28vw, 130px);
+      --dx: -40vw;
+      --dy: 20svh;
+    }
+
+    .ss-prop--cimento {
+      --x: 80%;
+      --y: 88svh;
+      --w: clamp(64px, 18vw, 90px);
+      --dx: 40vw;
+      --dy: 20svh;
+    }
+  }
+
+  /* telas muito baixas (celular deitado): o texto ocupa a altura toda; sem objetos */
+  @media (max-height: 500px) {
+    .ss-props {
+      display: none;
+    }
+  }
+
+
+  /* =========================================================
+     Modo animado (ligado pelo JS quando o movimento é permitido)
+     O hero não recebe nenhum efeito: sobe no fluxo normal da página.
+     ========================================================= */
+
+  .ss[data-motion] .ss-track {
+    height: calc(100svh + var(--ss-pin));
+  }
+
+  /* o palco fica preso no topo enquanto a composição se completa */
+  .ss[data-motion] .ss-statement {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+
+  /* o palco preso leva a continuação do brilho no próprio topo (altura do hero medida
+     pelo JS em --ss-hero-h), como na versão aprovada */
+  .ss[data-motion] .ss-stage {
+    height: 100%;
+    background:
+      radial-gradient(
+        ellipse 80% calc(var(--ss-hero-h, 100svh) * 0.4) at 50% calc(var(--ss-hero-h, 100svh) * -0.22),
+        rgb(214 214 250 / 0.55) 0%,
+        transparent 70%
+      ),
+      var(--ss-bone);
+  }
+
+  /* as frases começam ocultas (o JS avança --p com o scroll) */
+  .ss[data-motion] .ss-split {
+    --p: 0;
+  }
+
+  /* objetos começam fora da tela; camada própria só enquanto a composição se forma */
+  .ss[data-motion] .ss-prop {
+    --q: 0;
+  }
+
+  .ss[data-motion][data-active] .ss-prop {
+    will-change: transform, opacity;
+  }
+}
