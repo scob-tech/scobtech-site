@@ -43,6 +43,25 @@ export type VideoYouTube = {
 };
 
 /**
+ * Vídeo hospedado no próprio site (MP4 em /public). Só é baixado depois do clique na capa:
+ * antes disso, a página carrega apenas a imagem.
+ */
+export type VideoArquivo = {
+  src: string;
+  /** Capa exibida antes da reprodução (mesma proporção do vídeo). */
+  capa: string;
+  largura: number;
+  altura: number;
+  titulo: string;
+  /** Duração para leitores de tela, ex.: "52 segundos". */
+  duracao?: string;
+  /** A capa já desenha o botão de reprodução: o player não sobrepõe outro. */
+  capaComBotao?: boolean;
+  /** Transcrição fiel da narração, um parágrafo por item. Exibida em "Ler o conteúdo do vídeo". */
+  transcricao?: string[];
+};
+
+/**
  * Natureza de cada item do portfólio. Projeto real = sistema implementado e em uso por um
  * cliente. As outras naturezas só devem ser usadas quando houver material que as comprove.
  */

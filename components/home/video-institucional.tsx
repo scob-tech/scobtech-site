@@ -1,5 +1,5 @@
 import { videoInstitucional } from "@/lib/projetos";
-import { PlayerYouTube } from "./midia";
+import { PlayerArquivo } from "./midia";
 import { Ponto } from "./ponto";
 
 /** Faixa escura com o vídeo institucional. Oculta enquanto o vídeo não for fornecido. */
@@ -15,7 +15,18 @@ export function VideoInstitucional() {
           </h2>
         </header>
         <div data-reveal>
-          <PlayerYouTube video={videoInstitucional} />
+          <PlayerArquivo video={videoInstitucional} />
+          {videoInstitucional.transcricao && (
+            // elemento nativo: abre e fecha pelo teclado e funciona mesmo sem JavaScript
+            <details className="hm-video-transcricao">
+              <summary>Ler o conteúdo do vídeo</summary>
+              <div className="hm-video-transcricao-texto" lang="pt-BR">
+                {videoInstitucional.transcricao.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </div>
+            </details>
+          )}
         </div>
       </div>
     </section>
