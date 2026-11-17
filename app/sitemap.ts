@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { projetosPublicos } from "@/lib/projetos";
 
 // Necessário com output: "export" — o sitemap é gerado como arquivo estático no build
 export const dynamic = "force-static";
@@ -11,6 +12,9 @@ const routes: { path: string; priority: number }[] = [
   { path: "/", priority: 1 },
   // landing segmentada (Bone & Cobalt)
   { path: "/materiais-de-construcao", priority: 0.8 },
+  // portfólio: índice e uma página por projeto público de lib/projetos.ts
+  { path: "/projetos/", priority: 0.8 },
+  ...projetosPublicos.map((p) => ({ path: `/projetos/${p.slug}`, priority: 0.7 })),
   { path: "/privacy", priority: 0.3 },
 ];
 

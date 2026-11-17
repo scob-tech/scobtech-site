@@ -20,8 +20,8 @@ export const site = {
 };
 
 export const nav = [
-  { label: "Diferencial", href: "#comparacao" },
-  { label: "Cases", href: "#cases" },
+  { label: "Diferencial", href: "#diferencial" },
+  { label: "Cases", href: "#projetos" },
   { label: "Como funciona", href: "#processo" },
   { label: "Sobre", href: "#sobre" },
 ];

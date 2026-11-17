@@ -6,3 +6,6 @@ next-env.d.ts
 .DS_Store
 .env*.local
 .playwright-mcp/
+
+# materiais que não podem ser publicados: ficam em um repositório privado separado
+materiais-privados/
