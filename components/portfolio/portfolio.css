@@ -1,0 +1,511 @@
+/* =========================================================
+   Portfólio (/projetos e /projetos/[slug])
+   Usa os tokens e componentes de components/home/home.css. Escopado em .hm:
+   não altera globals.css, a home, /privacy nem a landing.
+   ========================================================= */
+
+@layer components {
+  .hm .hm-nav-links a[aria-current="page"],
+  .hm .hm-menu a[aria-current="page"] {
+    color: var(--hm-cobalt);
+  }
+
+  /* ---------- Abertura ---------- */
+
+  .pf-intro {
+    padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .pf-title {
+    margin-top: 1rem;
+    max-width: 18ch;
+    font-family: var(--hm-title);
+    font-size: clamp(2.6rem, 6.4vw, 5rem);
+    font-weight: 450;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--hm-ink);
+    text-wrap: balance;
+  }
+
+  .pf-nota {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--hm-muted);
+  }
+
+  /* ---------- Índice ---------- */
+
+  .pf-indice {
+    padding-bottom: clamp(4rem, 8vw, 6rem);
+  }
+
+  .pf-indice:has(+ .hm-cta) {
+    padding-bottom: var(--hm-section);
+  }
+
+  .pf-lista {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .pf-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: center;
+  }
+
+  .pf-card-media {
+    margin: 0;
+    transition: transform 400ms var(--hm-ease);
+  }
+
+  .pf-card-media img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top left;
+  }
+
+  .pf-card .hm-h3 {
+    margin-top: 1rem;
+  }
+
+  /* o link do título cobre o cartão inteiro */
+  .pf-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .pf-card-link:focus-visible {
+    outline: none;
+  }
+
+  .pf-card:has(.pf-card-link:focus-visible) {
+    outline: 2px solid var(--hm-cobalt);
+    outline-offset: 0.75rem;
+    border-radius: 1.25rem;
+  }
+
+  .pf-card-resumo {
+    margin-top: 1rem;
+    max-width: 34rem;
+  }
+
+  .pf-card .hm-chips {
+    margin-top: 1.5rem;
+  }
+
+  .pf-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    margin-top: 1.75rem;
+    font-weight: 600;
+    color: var(--hm-ink);
+  }
+
+  .pf-card-cta svg {
+    width: 1em;
+    height: 1em;
+    color: var(--hm-cobalt);
+    transition: transform 200ms var(--hm-ease);
+  }
+
+  @media (hover: hover) {
+    .pf-card:hover .pf-card-media {
+      transform: translateY(-4px);
+    }
+    .pf-card:hover .pf-card-cta svg {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pf-card {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+    .pf-lista > li:nth-child(even) .pf-card {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    }
+    .pf-lista > li:nth-child(even) .pf-card-media {
+      order: 2;
+    }
+  }
+
+  /* seções do índice (projetos reais, demonstrações...) */
+  .pf-sec-head {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--hm-line-strong);
+  }
+
+  .pf-sec-title {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 450;
+    letter-spacing: -0.015em;
+    color: var(--hm-ink);
+  }
+
+  .pf-sec-head p {
+    font-size: 0.9375rem;
+    color: var(--hm-muted);
+  }
+
+  .pf-nota-secao {
+    margin-top: 2rem;
+  }
+
+  /* demonstração: selo em contorno, mais discreto que o de projeto real */
+  .pf-badge-demo {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--hm-line-strong);
+    border-radius: 999px;
+    color: var(--hm-graphite);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .pf-demo-painel {
+    background: var(--hm-surface);
+  }
+
+  .pf-demo-painel ol {
+    display: grid;
+    padding: clamp(1rem, 3vw, 2rem);
+  }
+
+  .pf-demo-painel li {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.75rem;
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--hm-line);
+    font-size: 0.9375rem;
+    color: var(--hm-text);
+  }
+
+  .pf-demo-painel li:first-child {
+    border-top: 0;
+  }
+
+  .pf-demo-painel strong {
+    display: block;
+    font-family: var(--hm-title);
+    font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+    font-weight: 450;
+    color: var(--hm-ink);
+  }
+
+  .pf-demo-num {
+    padding-top: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--hm-cobalt);
+  }
+
+  .pf-card-demo .hm-actions {
+    margin-top: 1.75rem;
+  }
+
+  @media (hover: hover) {
+    .pf-card-demo:hover .pf-card-media {
+      transform: none;
+    }
+  }
+
+  /* ---------- Página do projeto ---------- */
+
+  .pf-case-head {
+    padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .pf-trilha ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+    font-size: 0.875rem;
+    color: var(--hm-muted);
+  }
+
+  .pf-trilha li + li::before {
+    content: "/";
+    margin-right: 0.4rem;
+    color: var(--hm-line-strong);
+  }
+
+  .pf-trilha a {
+    color: var(--hm-graphite);
+    text-decoration: underline;
+    text-decoration-color: var(--hm-line-strong);
+    text-underline-offset: 0.3em;
+  }
+
+  .pf-trilha a:hover {
+    text-decoration-color: var(--hm-cobalt);
+  }
+
+  .pf-case-head .hm-proj-meta {
+    margin-top: 0;
+  }
+
+  .pf-case-head .hm-chips {
+    margin-top: 1.5rem;
+  }
+
+  .pf-capa figure {
+    margin: 0;
+  }
+
+  .pf-dupla {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .pf-desafio {
+    font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+    color: var(--hm-graphite);
+    text-wrap: pretty;
+  }
+
+  .pf-ba {
+    margin-top: 1.75rem;
+  }
+
+  .pf-desafio + .pf-ba {
+    margin-top: 2rem;
+  }
+
+  .pf-dupla .pf-ba:first-child {
+    margin-top: 0;
+  }
+
+  .pf-mods {
+    display: grid;
+    counter-reset: pf-mod;
+  }
+
+  .pf-mods li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.75rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--hm-line);
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    color: var(--hm-ink);
+    counter-increment: pf-mod;
+  }
+
+  .pf-mods li:last-child {
+    border-bottom: 1px solid var(--hm-line);
+  }
+
+  .pf-mods li::before {
+    content: counter(pf-mod, decimal-leading-zero);
+    padding-top: 0.3em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--hm-cobalt);
+  }
+
+  @media (min-width: 1024px) {
+    .pf-dupla {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  /* vídeos */
+
+  .pf-videos {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .pf-video {
+    margin: 0;
+  }
+
+  .pf-video figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    font-size: 0.9375rem;
+    color: var(--hm-graphite);
+  }
+
+  /* galeria */
+
+  .pf-grupos {
+    display: grid;
+    gap: clamp(3rem, 6vw, 4.5rem);
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .pf-grupo-title {
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--hm-line);
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 450;
+    letter-spacing: -0.015em;
+    color: var(--hm-ink);
+  }
+
+  .pf-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .hm-head + .pf-grid {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .pf-fig {
+    margin: 0;
+  }
+
+  .pf-fig-link {
+    display: block;
+    border-radius: 1rem;
+  }
+
+  .pf-fig-link .hm-proj-stage {
+    display: grid;
+  }
+
+  .pf-fig-link img {
+    transition: transform 400ms var(--hm-ease);
+  }
+
+  @media (hover: hover) {
+    .pf-fig-link:hover .hm-proj-stage:not([data-portrait]) img {
+      transform: scale(1.015);
+    }
+  }
+
+  .pf-fig figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--hm-graphite);
+  }
+
+  @media (min-width: 900px) {
+    .pf-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    /* grupo com número ímpar de telas: a última ocupa a linha inteira em vez de ficar sozinha */
+    .pf-grid > .pf-fig:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* resultados (só aparecem com números confirmados) */
+
+  .pf-resultados {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .pf-resultados div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--hm-line-strong);
+  }
+
+  .pf-resultados dd {
+    font-family: var(--hm-title);
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    line-height: 1;
+    color: var(--hm-ink);
+  }
+
+  @media (min-width: 768px) {
+    .pf-resultados {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* outros projetos */
+
+  .pf-outros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: clamp(3rem, 6vw, 4.5rem) var(--hm-section);
+    border-top: 1px solid var(--hm-line);
+  }
+
+  .pf-proximo {
+    display: grid;
+    gap: 0.35rem;
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .pf-proximo-rotulo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hm-cobalt);
+  }
+
+  .pf-proximo-nome {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4em;
+    font-family: var(--hm-title);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--hm-ink);
+  }
+
+  .pf-proximo-nome svg {
+    width: 0.7em;
+    height: 0.7em;
+    color: var(--hm-cobalt);
+    transition: transform 200ms var(--hm-ease);
+  }
+
+  .pf-proximo-seg {
+    font-size: 0.875rem;
+    color: var(--hm-muted);
+  }
+
+  @media (hover: hover) {
+    .pf-proximo:hover .pf-proximo-nome svg {
+      transform: translateX(4px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-card:hover .pf-card-media,
+    .pf-fig-link:hover img {
+      transform: none !important;
+    }
+  }
+}

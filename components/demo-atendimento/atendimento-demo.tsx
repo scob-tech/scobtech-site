@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { Dialog, Tabs } from "radix-ui";
-import { BarChart3, CalendarDays, MessagesSquare, RotateCcw, Sparkles, X } from "lucide-react";
+import { BarChart3, BellRing, CalendarDays, MessagesSquare, RotateCcw, X } from "lucide-react";
 import { PROFILES } from "@/lib/demo-atendimento/data";
 import { formatDateTime } from "@/lib/demo-atendimento/format";
 import { AgendaTab } from "./agenda-tab";
@@ -19,7 +19,8 @@ const TABS: { id: TabId; label: string; short: string; Icon: typeof MessagesSqua
   { id: "atendimento", label: "Atendimento", short: "Atendimento", Icon: MessagesSquare },
   { id: "indicadores", label: "Indicadores", short: "Indicadores", Icon: BarChart3 },
   { id: "agenda", label: "Minha Agenda", short: "Agenda", Icon: CalendarDays },
-  { id: "analise", label: "Análise com IA", short: "Análise IA", Icon: Sparkles },
+  // a análise segue regras fixas (sem modelo de IA): o nome descreve o que a aba entrega
+  { id: "analise", label: "Alertas automáticos", short: "Alertas", Icon: BellRing },
 ];
 
 /**

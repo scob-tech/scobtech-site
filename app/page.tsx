@@ -1,35 +1,73 @@
-import { Navbar } from "@/components/site/navbar";
-import { Hero } from "@/components/site/hero";
-import { Authority } from "@/components/site/authority";
-import { Comparison } from "@/components/site/comparison";
-import { Cases } from "@/components/site/cases";
-import { BeforeScob } from "@/components/site/before-scob";
-import { HowItWorks } from "@/components/site/how-it-works";
-import { TechStack } from "@/components/site/tech-stack";
-import { About } from "@/components/site/about";
-import { Pricing } from "@/components/site/pricing";
-import { FinalCta } from "@/components/site/final-cta";
-import { Footer } from "@/components/site/footer";
-import { MobileCta } from "@/components/site/mobile-cta";
+import type { Metadata, Viewport } from "next";
+import { CtaFinal, Rodape } from "@/components/home/contato";
+import { Demonstracao } from "@/components/home/demonstracao";
+import { Diferencial } from "@/components/home/diferencial";
+import { HomeFontPreload } from "@/components/home/font-preload";
+import { homeFontVars } from "@/components/home/fonts";
+import { Fundador, Investimento } from "@/components/home/fundador";
+import { Hero } from "@/components/home/hero";
+import { MobileCta } from "@/components/home/mobile-cta";
+import { Nav } from "@/components/home/nav";
+import { Processo } from "@/components/home/processo";
+import { Projetos } from "@/components/home/projetos";
+import { Reveal } from "@/components/home/reveal";
+import { Solucoes } from "@/components/home/solucoes";
+import { VideoInstitucional } from "@/components/home/video-institucional";
+import "@/components/home/home.css";
+
+/**
+ * Home — direção "o ponto da scob.".
+ * Componentes em components/home, CSS escopado em .hm. Título e descrição próprios abaixo;
+ * o restante dos metadados (ícones, metadataBase) vem do layout raiz.
+ * Os componentes antigos da home (components/site) continuam no repositório: /privacy
+ * ainda usa Footer, Logo e Eyebrow.
+ */
+const title = "scob. — Tecnologia para atender, vender e operar melhor";
+const description =
+  "CRM com WhatsApp, sistemas de reservas e agendamento e softwares de gestão, desenvolvidos sob medida a partir da rotina da sua equipe.";
+
+// metadados próprios da home; o layout raiz continua servindo /privacy
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "scob.",
+    url: "/",
+    title,
+    description,
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "scob. — Sistemas sob medida" }],
+  },
+  twitter: { card: "summary_large_image", title, description, images: ["/og-image.png"] },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F2EFE8",
+  colorScheme: "light",
+};
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
+    <div className={`hm ${homeFontVars}`}>
+      <HomeFontPreload />
+      <Nav />
       <main>
         <Hero />
-        <Authority />
-        <Comparison />
-        <Cases />
-        <BeforeScob />
-        <HowItWorks />
-        <TechStack />
-        <About />
-        <Pricing />
-        <FinalCta />
+        <Solucoes />
+        <Demonstracao />
+        <Projetos />
+        <VideoInstitucional />
+        <Diferencial />
+        <Processo />
+        <Fundador />
+        <Investimento />
+        <CtaFinal />
       </main>
-      <Footer />
+      <Rodape />
       <MobileCta />
-    </>
+      <Reveal />
+    </div>
   );
 }

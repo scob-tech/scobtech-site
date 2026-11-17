@@ -28,6 +28,8 @@ jobs:
         env:
           # .env.local não vai para o repositório; o ID precisa existir no build do export estático
           NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-18447572737' }}
+      # rotas com páginas internas (ex.: /projetos) precisam de pasta/index.html no Pages
+      - run: node scripts/pages-rotas.mjs out
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
