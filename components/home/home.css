@@ -798,6 +798,7 @@
   }
 
   .hm-player iframe,
+  .hm-player video,
   .hm-player-facade {
     position: absolute;
     inset: 0;
@@ -863,9 +864,94 @@
     transform: translate(-50%, -50%) scale(1.06);
   }
 
+  .hm-player video {
+    display: block;
+    background: #0a0b17;
+    object-fit: contain;
+  }
+
+  /* capa que já traz o botão desenhado: imagem inteira, sem sobreposição */
+  .hm-player-facade[data-capa-com-botao] img {
+    opacity: 1;
+    transition: transform 500ms var(--hm-ease);
+  }
+
+  @media (hover: hover) {
+    .hm-player-facade[data-capa-com-botao]:hover img {
+      transform: scale(1.015);
+    }
+  }
+
+  /* o anel de foco fica dentro da capa (o player corta o que passa da borda) */
+  .hm-player-facade:focus-visible,
+  .hm-player video:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: -6px;
+    border-radius: 1.75rem;
+  }
+
   .hm-video {
     display: grid;
     gap: 2.5rem;
+  }
+
+  /* transcrição do vídeo: discreta, fechada por padrão */
+  .hm-video-transcricao {
+    margin-top: 1.25rem;
+  }
+
+  .hm-video-transcricao summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgb(255 255 255 / 0.78);
+    cursor: pointer;
+    list-style: none;
+    text-decoration: underline;
+    text-decoration-color: rgb(255 255 255 / 0.3);
+    text-underline-offset: 0.35em;
+    transition: color 200ms var(--hm-ease), text-decoration-color 200ms var(--hm-ease);
+  }
+
+  .hm-video-transcricao summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* seta que gira ao abrir */
+  .hm-video-transcricao summary::after {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-top: -0.2rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 200ms var(--hm-ease);
+  }
+
+  .hm-video-transcricao[open] summary::after {
+    margin-top: 0.2rem;
+    transform: rotate(-135deg);
+  }
+
+  .hm-video-transcricao summary:hover {
+    color: #fff;
+    text-decoration-color: rgb(255 255 255 / 0.7);
+  }
+
+  .hm-video-transcricao-texto {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 44rem;
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid rgb(255 255 255 / 0.16);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgb(255 255 255 / 0.78);
   }
 
   /* ---------- Projetos ---------- */

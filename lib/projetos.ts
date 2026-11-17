@@ -9,7 +9,7 @@
  *   loops curtos podem ficar no próprio site.
  */
 
-import type { Projeto, Tela, VideoYouTube } from "./projetos-base";
+import type { Projeto, Tela, VideoArquivo } from "./projetos-base";
 
 export * from "./projetos-base";
 
@@ -90,5 +90,22 @@ export const demonstracoes: Demonstracao[] = [
  * Mídias institucionais. Ficam `null` até os arquivos serem fornecidos:
  * enquanto isso, as seções correspondentes não são renderizadas.
  */
-export const videoInstitucional: VideoYouTube | null = null;
+export const videoInstitucional: VideoArquivo | null = {
+  src: "/institucional/scob-institucional.mp4",
+  capa: "/institucional/scob-institucional-capa.jpg",
+  largura: 1920,
+  altura: 1080,
+  titulo: "Como a scob. nasceu",
+  duracao: "52 segundos",
+  capaComBotao: true,
+  // conferida com a narração e com os textos do próprio vídeo
+  transcricao: [
+    "Toda empresa tem um jeito próprio de funcionar. E quase toda empresa toca esse jeito no WhatsApp, na planilha e no papel.",
+    "A scob. nasceu assim: um depósito de material de construção precisava organizar a operação, e nenhum sistema pronto servia. A gente construiu um, do tamanho exato do problema.",
+    "Funcionou. E um sistema virou outro. E mais outro. Hoje são quase vinte, rodando no dia a dia de depósitos, academias, óticas e escritórios.",
+    "O que a gente entrega? Atendimento por WhatsApp num painel só, com cada setor vendo o que é seu. Entregas, caixa e comissões sem planilha. E inteligência artificial cuidando do trabalho repetitivo.",
+    "Sem pacote fechado: a gente parte de uma base pronta e ajusta ao jeito que a sua empresa já trabalha. Você não muda a empresa pra caber no sistema.",
+    "Você sonha. A gente tira do papel.",
+  ],
+};
 export const avatarScob: { src: string; alt: string; width: number; height: number } | null = null;
